@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="มีเรื่องจะถามนิดนึง">
+<meta name="theme-color" content="#12283B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐈‍⬛</text></svg>">
+<title>ก๊อก ก๊อก</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sriracha&family=Noto+Sans+Thai+Looped:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-top: #12283B;
+    --sky-bottom: #21446A;
+    --text: #F4EDD8;
+    --muted: #B3C0D2;
+    --amber: #FFC44D;
+    --amber-ink: #2A1A00;
+    --line: rgba(244, 237, 216, .4);
+    --dot: rgba(244, 237, 216, .28);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --sky-top: #0A1521;
+      --sky-bottom: #162C44;
+    }
+  }
+  :root[data-theme="dark"] {
+    --sky-top: #0A1521;
+    --sky-bottom: #162C44;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom)) fixed;
+    background-color: var(--sky-top);
+    color: var(--text);
+    font-family: "Noto Sans Thai Looped", "Sarabun", Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  main { width: 100%; max-width: 440px; text-align: center; }
+
+  .dots { display: flex; justify-content: center; gap: 8px; margin: 0 0 14px; height: 8px; }
+  .dots span { width: 8px; height: 8px; border-radius: 99px; background: var(--dot); transition: width .2s ease, background .2s ease; }
+  .dots span.on { width: 26px; background: var(--amber); }
+  .dots.off { visibility: hidden; }
+
+  .cat-wrap { width: min(66vw, 250px); margin: 0 auto 10px; filter: drop-shadow(0 0 28px rgba(242, 232, 203, .28)); }
+  .cat-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  #cat .eyes > g, #cat .mouths > g, #cat .extra > g { display: none; }
+  #cat[data-mood="idle"] .e-idle, #cat[data-mood="knock"] .e-idle, #cat[data-mood="idle"] .m-idle, #cat[data-mood="knock"] .m-idle { display: inline; }
+  #cat[data-mood="tease"] .e-tease, #cat[data-mood="tease"] .m-tease { display: inline; }
+  #cat[data-mood="happy"] .e-happy, #cat[data-mood="happy"] .m-happy, #cat[data-mood="happy"] .x-happy { display: inline; }
+  .x-happy { animation: pulse .9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+  .paw-r { transform-box: fill-box; transform-origin: center; }
+  #cat[data-mood="knock"] .paw-r { animation: knock 1.4s ease-in-out .2s 1 both; }
+  @keyframes knock {
+    0%   { transform: translate(0, 0) scale(1); }
+    25%  { transform: translate(30px, -62px) scale(1.15); }
+    40%  { transform: translate(30px, -52px) scale(1.3); }
+    55%  { transform: translate(30px, -62px) scale(1.15); }
+    70%  { transform: translate(30px, -52px) scale(1.3); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+
+  h1 {
+    font-family: "Sriracha", "Noto Sans Thai Looped", Tahoma, sans-serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 8.4vw, 2.8rem);
+    line-height: 1.4;
+    margin: 6px 0 4px;
+    outline: none;
+    text-wrap: balance;
+  }
+  h1 .k { display: inline-block; }
+  h1 .k1 { animation: pop .3s ease-out .76s both; }
+  h1 .k2 { animation: pop .3s ease-out 1.18s both; }
+  @keyframes pop {
+    0%   { opacity: 0; transform: scale(.6); }
+    60%  { opacity: 1; transform: scale(1.18); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .sub { font-size: 1rem; line-height: 1.8; color: var(--muted); margin: 0 auto; max-width: 30ch; }
+  .ask {
+    font-family: "Sriracha", "Noto Sans Thai Looped", Tahoma, sans-serif;
+    font-size: clamp(1.5rem, 6.4vw, 2rem);
+    line-height: 1.5;
+    color: var(--amber);
+    margin: 2px 0 0;
+  }
+
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px; margin-top: 26px; min-height: 56px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 52px; min-width: 116px; padding: 10px 30px;
+    border-radius: 999px;
+    font: 600 1.1rem "Noto Sans Thai Looped", Tahoma, sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+  .btn-main { background: var(--amber); color: var(--amber-ink); }
+  .btn-alt { background: transparent; color: var(--text); border-color: var(--line); }
+  .btn.flee { position: fixed; margin: 0; transform-origin: top left; transition: left .18s ease-out, top .18s ease-out, transform .18s ease-out; z-index: 10; white-space: nowrap; }
+
+  .msg {
+    margin: 22px auto 0; max-width: 28ch;
+    border: 2px dashed var(--line); border-radius: 18px;
+    padding: 12px 18px; font-size: 1.05rem; line-height: 1.7;
+    user-select: all;
+  }
+
+  .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 20; }
+  .confetti svg { position: absolute; top: -48px; width: 28px; height: 28px; animation: fall var(--d) linear var(--delay) forwards; }
+  @keyframes fall { to { transform: translateY(115vh) rotate(var(--r)); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .x-happy, #cat[data-mood="knock"] .paw-r, h1 .k1, h1 .k2 { animation: none; }
+    .btn.flee, .dots span { transition: none; }
+  }
+
+  /* ---- Desktop tuning ---- */
+  body { padding: 40px; }
+  .btn { transition: transform .15s ease, filter .15s ease, border-color .15s ease; }
+  .btn-main:hover { filter: brightness(1.08); transform: translateY(-2px); }
+  .btn-alt:hover { border-color: var(--text); }
+  .pupil { transition: transform .08s linear; }
+  @media (min-width: 860px) {
+    main {
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: minmax(300px, 400px) 1fr;
+      column-gap: 80px;
+      align-items: center;
+      text-align: left;
+    }
+    .dots { grid-column: 1 / -1; justify-content: flex-start; margin-bottom: 12px; }
+    .cat-wrap { width: 100%; max-width: 400px; margin: 0; }
+    h1 { font-size: clamp(2.8rem, 4.4vw, 3.8rem); }
+    .ask { font-size: clamp(2rem, 3vw, 2.4rem); }
+    .sub { margin: 0; max-width: 34ch; }
+    .actions { justify-content: flex-start; margin-top: 32px; }
+    .msg { margin-left: 0; }
+  }
+
+  /* ---- Phone / iPhone (< 860px) ---- */
+  html { -webkit-text-size-adjust: 100%; }
+  .btn { touch-action: manipulation; }
+  @media (max-width: 859px) {
+    body {
+      min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      min-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      overscroll-behavior: none;
+      -webkit-user-select: none; user-select: none;
+      padding: 16px 20px;
+    }
+    .cat-wrap { width: min(64vw, 38vh, 250px); width: min(64vw, 38dvh, 250px); }
+    .btn { min-height: 56px; min-width: 132px; font-size: 1.15rem; }
+    .actions { gap: 16px; }
+    .msg { -webkit-user-select: text; user-select: text; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+    <radialGradient id="moonGrad" cx="38%" cy="32%" r="85%">
+      <stop offset="0" stop-color="#FBF3DC"/>
+      <stop offset="1" stop-color="#E7DAB4"/>
+    </radialGradient>
+  </defs>
+  <symbol id="catface" viewBox="0 0 40 40">
+    <path d="M6 16 L9 4 L19 10 Z M34 16 L31 4 L21 10 Z" fill="#0C0C12" stroke="#F2E8CB" stroke-width="1.6" stroke-linejoin="round"/>
+    <ellipse cx="20" cy="22" rx="15" ry="13" fill="#0C0C12" stroke="#F2E8CB" stroke-width="1.6"/>
+    <circle cx="14" cy="21" r="2.6" fill="#FFC44D"/>
+    <circle cx="26" cy="21" r="2.6" fill="#FFC44D"/>
+    <path d="M18.4 25.5 L21.6 25.5 L20 27.6 Z" fill="#D9788F"/>
+  </symbol>
+  <symbol id="heart" viewBox="0 0 24 24">
+    <path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z" fill="#FF6F97"/>
+  </symbol>
+</svg>
+
+<main>
+  <div class="dots" id="dots" role="img" aria-label="หน้า 1 จาก 7"></div>
+
+  <div class="cat-wrap">
+    <svg id="cat" data-mood="idle" viewBox="0 0 220 212" role="img" aria-label="แมวดำตาสีเหลืองอำพัน">
+      <!-- moon -->
+      <circle cx="110" cy="104" r="100" fill="url(#moonGrad)"/>
+      <circle cx="58" cy="60" r="12" fill="#8C7F58" opacity=".1"/>
+      <circle cx="170" cy="80" r="9" fill="#8C7F58" opacity=".1"/>
+      <circle cx="160" cy="150" r="14" fill="#8C7F58" opacity=".08"/>
+      <circle cx="46" cy="140" r="7" fill="#8C7F58" opacity=".1"/>
+
+      <!-- ears -->
+      <path d="M44 96 L48 30 L100 62 Z M176 96 L172 30 L120 62 Z" fill="#0C0C12" stroke="#23233A" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M55 86 L56 46 L88 66 Z M165 86 L164 46 L132 66 Z" fill="#3A2A44"/>
+      <!-- head -->
+      <ellipse cx="110" cy="118" rx="74" ry="60" fill="#0C0C12" stroke="#23233A" stroke-width="3"/>
+
+      <!-- eyes -->
+      <g class="eyes">
+        <g class="e-idle">
+          <circle cx="80" cy="112" r="22" fill="#FFC44D" opacity=".35" filter="url(#blur)"/>
+          <circle cx="140" cy="112" r="22" fill="#FFC44D" opacity=".35" filter="url(#blur)"/>
+          <circle cx="80" cy="112" r="15" fill="#FFC44D"/>
+          <circle cx="140" cy="112" r="15" fill="#FFC44D"/>
+          <ellipse class="pupil" cx="80" cy="112" rx="4.5" ry="12" fill="#0C0C12"/>
+          <ellipse class="pupil" cx="140" cy="112" rx="4.5" ry="12" fill="#0C0C12"/>
+          <circle cx="85" cy="106" r="3" fill="#fff" opacity=".9"/>
+          <circle cx="145" cy="106" r="3" fill="#fff" opacity=".9"/>
+        </g>
+        <g class="e-tease">
+          <ellipse cx="80" cy="115" rx="15" ry="9" fill="#FFC44D"/>
+          <ellipse cx="140" cy="115" rx="15" ry="9" fill="#FFC44D"/>
+          <ellipse cx="87" cy="115" rx="4" ry="8" fill="#0C0C12"/>
+          <ellipse cx="147" cy="115" rx="4" ry="8" fill="#0C0C12"/>
+          <path d="M63 111 Q80 97 97 111 M123 111 Q140 97 157 111" stroke="#0C0C12" stroke-width="6" stroke-linecap="round" fill="none"/>
+        </g>
+        <g class="e-happy">
+          <path d="M65 119 Q80 98 95 119 M125 119 Q140 98 155 119" stroke="#FFC44D" stroke-width="6" stroke-linecap="round" fill="none"/>
+        </g>
+      </g>
+
+      <!-- nose -->
+      <path d="M104 130 L116 130 L110 137 Z" fill="#D9788F" stroke="#D9788F" stroke-width="2" stroke-linejoin="round"/>
+      <!-- mouth -->
+      <g class="mouths">
+        <g class="m-idle"><path d="M110 137 Q104 148 95 141 M110 137 Q116 148 125 141" stroke="#B9B4D6" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+        <g class="m-tease"><path d="M110 137 Q104 146 96 141 M110 137 Q120 152 128 137" stroke="#B9B4D6" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+        <g class="m-happy">
+          <path d="M95 140 Q110 164 125 140 Z" fill="#5B1F3A" stroke="#B9B4D6" stroke-width="2.5" stroke-linejoin="round"/>
+          <ellipse cx="110" cy="150" rx="7" ry="4.5" fill="#E88AA5"/>
+        </g>
+      </g>
+
+      <!-- whiskers -->
+      <path d="M44 122 L8 114 M44 133 L8 136 M176 122 L212 114 M176 133 L212 136" stroke="#9A98B5" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+
+      <!-- paws -->
+      <g fill="#0C0C12" stroke="#23233A" stroke-width="3">
+        <ellipse cx="84" cy="192" rx="23" ry="13"/>
+        <g class="paw-r"><ellipse cx="136" cy="192" rx="23" ry="13"/><path d="M128 187 V195 M136 186 V195 M144 187 V195" stroke="#3A3A56" stroke-width="2.4" stroke-linecap="round"/></g>
+      </g>
+      <path d="M76 187 V195 M84 186 V195 M92 187 V195" stroke="#3A3A56" stroke-width="2.4" stroke-linecap="round"/>
+
+      <!-- extras -->
+      <g class="extra">
+        <g class="x-happy">
+          <use href="#heart" x="6" y="8" width="30" height="30"/>
+          <use href="#heart" x="184" y="14" width="26" height="26"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div id="view"></div>
+</main>
+
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+  var TOTAL = 7;
+  var cat = document.getElementById('cat');
+  var view = document.getElementById('view');
+  var dotsBox = document.getElementById('dots');
+  var confetti = document.getElementById('confetti');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var moodTimer = null;
+
+  function setMood(m) { cat.setAttribute('data-mood', m); }
+
+  // หน้าทั้งหมด: กด 2 ปุ่มไปหน้าถัดไปเหมือนกัน (หน้า 7 ต่างออกไป)
+  var pages = {
+    1: { title: ['ก๊อก', 'ก๊อก'], mood: 'knock', answers: [{ t: 'ใครน่ะ' }] },
+    2: { title: 'มีใครอยู่ไหม', answers: [{ t: 'มี' }, { t: 'มี', main: true }] },
+    3: { title: 'มีใครในใจหรือยัง', answers: [{ t: 'มี' }, { t: 'ยังไม่มี', alt: true }] },
+    4: { title: 'ชอบเดินป่าไหม', answers: [{ t: 'ใช่' }, { t: 'ไม่', alt: true }] },
+    5: { title: 'ชอบไปทะเลไหม', answers: [{ t: 'ใช่' }, { t: 'ไม่', alt: true }] },
+    6: { title: 'ชอบแค่ป่าหรอ', answers: [{ t: 'ใช่' }, { t: 'ไม่ใช่', alt: true }] },
+    7: { title: 'แต่ผมชอบคุณนะ', ask: 'แล้วคุณชอบผมไหม', last: true }
+  };
+
+  function buildDots() {
+    dotsBox.textContent = '';
+    for (var i = 1; i <= TOTAL; i++) dotsBox.appendChild(document.createElement('span'));
+  }
+  function updateDots(n) {
+    var spans = dotsBox.children;
+    for (var i = 0; i < spans.length; i++) spans[i].className = (i + 1 === n) ? 'on' : '';
+    dotsBox.setAttribute('aria-label', 'หน้า ' + n + ' จาก ' + TOTAL);
+    dotsBox.className = 'dots';
+  }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+
+  function burst() {
+    if (reduceMotion) return;
+    var ns = 'http://www.w3.org/2000/svg';
+    for (var i = 0; i < 28; i++) {
+      var s = document.createElementNS(ns, 'svg');
+      var u = document.createElementNS(ns, 'use');
+      var heart = i % 3 === 0;
+      u.setAttribute('href', heart ? '#heart' : '#catface');
+      s.appendChild(u);
+      s.setAttribute('viewBox', heart ? '0 0 24 24' : '0 0 40 40');
+      s.style.left = (Math.random() * 96) + '%';
+      s.style.setProperty('--d', (2.4 + Math.random() * 2) + 's');
+      s.style.setProperty('--delay', (Math.random() * 0.9) + 's');
+      s.style.setProperty('--r', (Math.random() * 540 - 270) + 'deg');
+      confetti.appendChild(s);
+    }
+    setTimeout(function () { confetti.textContent = ''; }, 6000);
+  }
+
+  function getInsets() {
+    var d = document.createElement('div');
+    d.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';
+    document.body.appendChild(d);
+    var cs = getComputedStyle(d);
+    var r = { top: parseFloat(cs.paddingTop) || 0, bottom: parseFloat(cs.paddingBottom) || 0 };
+    document.body.removeChild(d);
+    return r;
+  }
+
+  // ปุ่ม "ไม่" หน้า 7: หนีทุกครั้งที่แตะ/เอาเมาส์เข้าใกล้ กดไม่โดน
+  function makeDodger(btn, avoid) {
+    var texts = ['ไม่', 'ไม่จริงอ่ะ', 'จับไม่ได้หรอก', 'แมวเร็วกว่านะ', 'ลองอีกทีสิ', 'ยอมเถอะ'];
+    var n = 0, scale = 1, fled = false, last = 0;
+    function flee(e) {
+      var now = Date.now();
+      if (now - last < 150) return;
+      last = now;
+      if (e && e.preventDefault) e.preventDefault();
+      var r = btn.getBoundingClientRect();
+      if (!fled) {
+        fled = true;
+        var sp = document.createElement('span');
+        sp.style.display = 'inline-block';
+        sp.style.width = r.width + 'px';
+        sp.style.height = r.height + 'px';
+        btn.parentNode.insertBefore(sp, btn);
+        btn.style.left = r.left + 'px';
+        btn.style.top = r.top + 'px';
+        btn.classList.add('flee');
+        void btn.offsetWidth;
+      }
+      n++;
+      scale = Math.max(0.55, scale * 0.92);
+      btn.textContent = texts[Math.min(n, texts.length - 1)];
+      setMood('tease');
+      clearTimeout(moodTimer);
+      moodTimer = setTimeout(function () { setMood('idle'); }, 1200);
+
+      var w = btn.offsetWidth * scale, h = btn.offsetHeight * scale;
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var ins = getInsets();
+      var padX = 16, padTop = ins.top + 16, padBottom = ins.bottom + 16;
+      var px = (e && typeof e.clientX === 'number') ? e.clientX : r.left + r.width / 2;
+      var py = (e && typeof e.clientY === 'number') ? e.clientY : r.top + r.height / 2;
+      var yr = avoid.getBoundingClientRect();
+      var best = null;
+      for (var i = 0; i < 40; i++) {
+        var x = padX + Math.random() * Math.max(1, vw - w - 2 * padX);
+        var y = padTop + Math.random() * Math.max(1, vh - h - padTop - padBottom);
+        if (!best) best = { x: x, y: y };
+        var far = Math.hypot(x + w / 2 - px, y + h / 2 - py) > (vw < 860 ? 150 : 220);
+        var clear = x > yr.right + 16 || x + w < yr.left - 16 || y > yr.bottom + 16 || y + h < yr.top - 16;
+        if (far && clear) { best = { x: x, y: y }; break; }
+      }
+      btn.style.left = best.x + 'px';
+      btn.style.top = best.y + 'px';
+      btn.style.transform = 'scale(' + scale + ')';
+    }
+    btn.addEventListener('pointerenter', flee);
+    btn.addEventListener('pointerdown', flee);
+    btn.addEventListener('touchstart', flee, { passive: false });
+    btn.addEventListener('click', flee);
+  }
+
+  var finalMsg = 'ใช่ ชอบเหมือนกัน 🖤';
+
+  function render(key) {
+    view.textContent = '';
+    clearTimeout(moodTimer);
+    var actions;
+
+    if (key === 'done') {
+      dotsBox.className = 'dots off';
+      setMood('happy');
+      var h = el('h1', '', 'เย้!');
+      h.tabIndex = -1;
+      view.appendChild(h);
+      view.appendChild(el('p', 'msg', finalMsg));
+      burst();
+      h.focus({ preventScroll: true });
+      return;
+    }
+
+    var n = key;
+    var p = pages[n];
+    updateDots(n);
+    setMood(p.mood || 'idle');
+
+    var title = el('h1');
+    title.tabIndex = -1;
+    if (Array.isArray(p.title)) {
+      p.title.forEach(function (t, i) {
+        title.appendChild(el('span', 'k k' + (i + 1), t));
+        if (i < p.title.length - 1) title.appendChild(document.createTextNode(' '));
+      });
+    } else {
+      title.textContent = p.title;
+    }
+    view.appendChild(title);
+    if (p.ask) view.appendChild(el('p', 'ask', p.ask));
+
+    actions = el('div', 'actions');
+    if (p.last) {
+      var yes = el('a', 'btn btn-main', 'ใช่');
+      yes.href = '#done';
+      var no = el('button', 'btn btn-alt', 'ไม่');
+      no.type = 'button';
+      actions.appendChild(yes);
+      actions.appendChild(no);
+      view.appendChild(actions);
+      makeDodger(no, yes);
+    } else {
+      p.answers.forEach(function (a, i) {
+        var link = el('a', 'btn ' + (a.alt ? 'btn-alt' : 'btn-main'), a.t);
+        link.href = '#' + (n + 1);
+        actions.appendChild(link);
+      });
+      view.appendChild(actions);
+    }
+    title.focus({ preventScroll: true });
+  }
+
+  function route() {
+    var h = (location.hash || '').replace('#', '');
+    if (h === 'done') { render('done'); return; }
+    var n = parseInt(h, 10);
+    if (!(n >= 1 && n <= TOTAL)) n = 1;
+    render(n);
+  }
+
+  // แมวมองตามเมาส์
+  var pupils = cat.querySelectorAll('.pupil');
+  document.addEventListener('mousemove', function (e) {
+    var mood = cat.getAttribute('data-mood');
+    if (mood !== 'idle' && mood !== 'knock') return;
+    var r = cat.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height * (112 / 212);
+    var dx = e.clientX - cx, dy = e.clientY - cy;
+    var d = Math.hypot(dx, dy) || 1;
+    var k = Math.min(1, d / 300) * 5;
+    for (var i = 0; i < pupils.length; i++) {
+      pupils[i].style.transform = 'translate(' + (dx / d * k) + 'px,' + (dy / d * k * 0.8) + 'px)';
+    }
+  });
+
+  buildDots();
+  window.addEventListener('hashchange', route);
+  route();
+</script>
+</body>
+</html>
