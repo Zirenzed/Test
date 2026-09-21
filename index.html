@@ -51,22 +51,22 @@
     padding: 20px;
   }
   main { width: 100%; max-width: 440px; text-align: center; }
-
+ 
   .dots { display: flex; justify-content: center; gap: 8px; margin: 0 0 14px; height: 8px; }
   .dots span { width: 8px; height: 8px; border-radius: 99px; background: var(--dot); transition: width .2s ease, background .2s ease; }
   .dots span.on { width: 26px; background: var(--amber); }
   .dots.off { visibility: hidden; }
-
+ 
   .cat-wrap { width: min(66vw, 250px); margin: 0 auto 10px; filter: drop-shadow(0 0 28px rgba(242, 232, 203, .28)); }
   .cat-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
-
+ 
   #cat .eyes > g, #cat .mouths > g, #cat .extra > g { display: none; }
   #cat[data-mood="idle"] .e-idle, #cat[data-mood="knock"] .e-idle, #cat[data-mood="idle"] .m-idle, #cat[data-mood="knock"] .m-idle { display: inline; }
   #cat[data-mood="tease"] .e-tease, #cat[data-mood="tease"] .m-tease { display: inline; }
   #cat[data-mood="happy"] .e-happy, #cat[data-mood="happy"] .m-happy, #cat[data-mood="happy"] .x-happy { display: inline; }
   .x-happy { animation: pulse .9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
   @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-
+ 
   .paw-r { transform-box: fill-box; transform-origin: center; }
   #cat[data-mood="knock"] .paw-r { animation: knock 1.4s ease-in-out .2s 1 both; }
   @keyframes knock {
@@ -77,7 +77,7 @@
     70%  { transform: translate(30px, -52px) scale(1.3); }
     100% { transform: translate(0, 0) scale(1); }
   }
-
+ 
   h1 {
     font-family: "Sriracha", "Noto Sans Thai Looped", Tahoma, sans-serif;
     font-weight: 400;
@@ -103,7 +103,7 @@
     color: var(--amber);
     margin: 2px 0 0;
   }
-
+ 
   .actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px; margin-top: 26px; min-height: 56px; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -119,23 +119,23 @@
   .btn-main { background: var(--amber); color: var(--amber-ink); }
   .btn-alt { background: transparent; color: var(--text); border-color: var(--line); }
   .btn.flee { position: fixed; margin: 0; transform-origin: top left; transition: left .18s ease-out, top .18s ease-out, transform .18s ease-out; z-index: 10; white-space: nowrap; }
-
+ 
   .msg {
     margin: 22px auto 0; max-width: 28ch;
     border: 2px dashed var(--line); border-radius: 18px;
     padding: 12px 18px; font-size: 1.05rem; line-height: 1.7;
     user-select: all;
   }
-
+ 
   .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 20; }
   .confetti svg { position: absolute; top: -48px; width: 28px; height: 28px; animation: fall var(--d) linear var(--delay) forwards; }
   @keyframes fall { to { transform: translateY(115vh) rotate(var(--r)); } }
-
+ 
   @media (prefers-reduced-motion: reduce) {
     .x-happy, #cat[data-mood="knock"] .paw-r, h1 .k1, h1 .k2 { animation: none; }
     .btn.flee, .dots span { transition: none; }
   }
-
+ 
   /* ---- Desktop tuning ---- */
   body { padding: 40px; }
   .btn { transition: transform .15s ease, filter .15s ease, border-color .15s ease; }
@@ -159,7 +159,7 @@
     .actions { justify-content: flex-start; margin-top: 32px; }
     .msg { margin-left: 0; }
   }
-
+ 
   /* ---- Phone / iPhone (< 860px) ---- */
   html { -webkit-text-size-adjust: 100%; }
   .btn { touch-action: manipulation; }
@@ -176,10 +176,97 @@
     .actions { gap: 16px; }
     .msg { -webkit-user-select: text; user-select: text; }
   }
+ 
+  /* ---- Flow additions: long titles, popup, scratch card ---- */
+  [hidden] { display: none !important; }
+  h1.long { font-size: clamp(1.6rem, 5.8vw, 2.2rem); }
+  h1.xl   { font-size: clamp(1.35rem, 4.8vw, 1.8rem); line-height: 1.55; }
+  @media (min-width: 860px) {
+    h1.long { font-size: clamp(2rem, 3vw, 2.6rem); }
+    h1.xl   { font-size: clamp(1.7rem, 2.4vw, 2.1rem); }
+    .scratch { margin-left: 0; }
+  }
+ 
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    background: rgba(6, 14, 24, .62);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  }
+  .modal {
+    width: min(100%, 380px);
+    text-align: center;
+    background: linear-gradient(180deg, #1B3550, #12283B);
+    border: 2px solid rgba(255, 196, 77, .55);
+    border-radius: 26px;
+    padding: 24px 24px 26px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+    color: #F4EDD8;
+  }
+  .modal svg { width: 48px; height: 48px; display: block; margin: 0 auto 8px; }
+  .modal p {
+    font-family: "Sriracha", "Noto Sans Thai Looped", Tahoma, sans-serif;
+    font-size: clamp(1.5rem, 6vw, 1.9rem);
+    line-height: 1.5;
+    margin: 0 0 22px;
+  }
+  .modal .btn { min-width: 132px; }
+ 
+  .scratch {
+    position: relative;
+    width: min(100%, 380px); height: 150px;
+    margin: 24px auto 0;
+    border-radius: 20px; overflow: hidden;
+    background: linear-gradient(180deg, #183149, #0F2233);
+    border: 2px solid rgba(255, 196, 77, .5);
+  }
+  .scratch-msg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 20px; text-align: center;
+    font-family: "Sriracha", "Noto Sans Thai Looped", Tahoma, sans-serif;
+    font-size: clamp(1.3rem, 5.4vw, 1.75rem); line-height: 1.5;
+    color: var(--amber);
+  }
+  .scratch canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    touch-action: none; cursor: crosshair;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    transition: opacity .6s ease;
+  }
+  .scratch canvas:focus-visible { outline: 3px solid var(--text); outline-offset: -3px; }
+  .scratch canvas.gone { opacity: 0; pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) { .scratch canvas { transition: none; } }
+ 
+  /* ---- Back button (every page) + popup actions ---- */
+  .back {
+    position: fixed; z-index: 10;
+    left: 14px; top: calc(env(safe-area-inset-top, 0px) + 12px);
+    display: inline-flex; align-items: center; gap: 6px;
+    min-height: 44px; padding: 8px 16px 8px 10px;
+    border-radius: 999px;
+    background: rgba(10, 21, 33, .35);
+    border: 2px solid var(--line);
+    color: var(--text);
+    font: 600 .95rem "Noto Sans Thai Looped", Tahoma, sans-serif;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  }
+  .back svg { width: 16px; height: 16px; }
+  .back:hover { border-color: var(--text); }
+  .back:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+  .modal-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .modal .btn { min-width: 116px; padding: 10px 20px; }
+  @media (max-width: 859px) {
+    body { padding-top: 64px; }
+    .cat-wrap { width: min(64vw, 34vh, 250px); width: min(64vw, 34dvh, 250px); }
+  }
 </style>
 </head>
 <body>
-
+ 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
@@ -199,10 +286,15 @@
     <path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z" fill="#FF6F97"/>
   </symbol>
 </svg>
-
+ 
+<button class="back" id="back" type="button" hidden>
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>ย้อนกลับ</span>
+</button>
+ 
 <main>
-  <div class="dots" id="dots" role="img" aria-label="หน้า 1 จาก 7"></div>
-
+  <div class="dots" id="dots" role="img" aria-label="หน้า 1 จาก 12"></div>
+ 
   <div class="cat-wrap">
     <svg id="cat" data-mood="idle" viewBox="0 0 220 212" role="img" aria-label="แมวดำตาสีเหลืองอำพัน">
       <!-- moon -->
@@ -211,13 +303,13 @@
       <circle cx="170" cy="80" r="9" fill="#8C7F58" opacity=".1"/>
       <circle cx="160" cy="150" r="14" fill="#8C7F58" opacity=".08"/>
       <circle cx="46" cy="140" r="7" fill="#8C7F58" opacity=".1"/>
-
+ 
       <!-- ears -->
       <path d="M44 96 L48 30 L100 62 Z M176 96 L172 30 L120 62 Z" fill="#0C0C12" stroke="#23233A" stroke-width="3" stroke-linejoin="round"/>
       <path d="M55 86 L56 46 L88 66 Z M165 86 L164 46 L132 66 Z" fill="#3A2A44"/>
       <!-- head -->
       <ellipse cx="110" cy="118" rx="74" ry="60" fill="#0C0C12" stroke="#23233A" stroke-width="3"/>
-
+ 
       <!-- eyes -->
       <g class="eyes">
         <g class="e-idle">
@@ -241,7 +333,7 @@
           <path d="M65 119 Q80 98 95 119 M125 119 Q140 98 155 119" stroke="#FFC44D" stroke-width="6" stroke-linecap="round" fill="none"/>
         </g>
       </g>
-
+ 
       <!-- nose -->
       <path d="M104 130 L116 130 L110 137 Z" fill="#D9788F" stroke="#D9788F" stroke-width="2" stroke-linejoin="round"/>
       <!-- mouth -->
@@ -253,17 +345,17 @@
           <ellipse cx="110" cy="150" rx="7" ry="4.5" fill="#E88AA5"/>
         </g>
       </g>
-
+ 
       <!-- whiskers -->
       <path d="M44 122 L8 114 M44 133 L8 136 M176 122 L212 114 M176 133 L212 136" stroke="#9A98B5" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
-
+ 
       <!-- paws -->
       <g fill="#0C0C12" stroke="#23233A" stroke-width="3">
         <ellipse cx="84" cy="192" rx="23" ry="13"/>
         <g class="paw-r"><ellipse cx="136" cy="192" rx="23" ry="13"/><path d="M128 187 V195 M136 186 V195 M144 187 V195" stroke="#3A3A56" stroke-width="2.4" stroke-linecap="round"/></g>
       </g>
       <path d="M76 187 V195 M84 186 V195 M92 187 V195" stroke="#3A3A56" stroke-width="2.4" stroke-linecap="round"/>
-
+ 
       <!-- extras -->
       <g class="extra">
         <g class="x-happy">
@@ -273,34 +365,103 @@
       </g>
     </svg>
   </div>
-
+ 
   <div id="view"></div>
 </main>
-
+ 
 <div class="confetti" id="confetti" aria-hidden="true"></div>
-
+ 
 <script>
-  var TOTAL = 7;
+  var TOTAL = 12;
   var cat = document.getElementById('cat');
   var view = document.getElementById('view');
   var dotsBox = document.getElementById('dots');
   var confetti = document.getElementById('confetti');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var moodTimer = null;
-
+ 
   function setMood(m) { cat.setAttribute('data-mood', m); }
-
-  // หน้าทั้งหมด: กด 2 ปุ่มไปหน้าถัดไปเหมือนกัน (หน้า 7 ต่างออกไป)
-  var pages = {
-    1: { title: ['ก๊อก', 'ก๊อก'], mood: 'knock', answers: [{ t: 'ใครน่ะ' }] },
-    2: { title: 'มีใครอยู่ไหม', answers: [{ t: 'มี' }, { t: 'มี', main: true }] },
-    3: { title: 'มีใครในใจหรือยัง', answers: [{ t: 'มี' }, { t: 'ยังไม่มี', alt: true }] },
-    4: { title: 'ชอบเดินป่าไหม', answers: [{ t: 'ใช่' }, { t: 'ไม่', alt: true }] },
-    5: { title: 'ชอบไปทะเลไหม', answers: [{ t: 'ใช่' }, { t: 'ไม่', alt: true }] },
-    6: { title: 'ชอบแค่ป่าหรอ', answers: [{ t: 'ใช่' }, { t: 'ไม่ใช่', alt: true }] },
-    7: { title: 'แต่ผมชอบคุณนะ', ask: 'แล้วคุณชอบผมไหม', last: true }
-  };
-
+ 
+  /* ================= FLOW (source of truth) =================
+     dot   = which progress dot is lit (intermediate states reuse their parent's dot)
+     ask   = question + answers      say = message + [ไปต่อ]      pop = popup over a parent question */
+  var S = {};
+  function ask(key, dot, title, answers, mood) { S[key] = { dot: dot, title: title, answers: answers, mood: mood || 'idle' }; }
+  // popup = ข้อความเด้งทับหน้าคำถามเดิม (parent) มีปุ่มไปต่อ และปุ่มย้อนกลับ
+  function pop(key, parent, dot, text, next) {
+    S[key] = { dot: dot, parent: parent, popup: text, answers: [{ t: 'ไปต่อ', to: next }] };
+  }
+ 
+  // 1-2
+  ask('1', 1, ['ก๊อก', 'ก๊อก'], [{ t: 'ใครน่ะ', to: '2' }], 'knock');
+  ask('2', 2, 'มีใครอยู่ไหมครับ', [{ t: 'มี', to: '2-hi' }, { t: 'มี', to: '2-manee' }]);
+  pop('2-hi', '2', 2, 'สวัสดีครับฮาย ยินดีที่ได้พบครับ 😳', '3');
+  pop('2-manee', '2', 2, 'สวัสดีครับมานี ยินดีที่ได้พบครับ 😳', '3');
+ 
+  // 3 (+3.2, 3.3)
+  ask('3', 3, 'มีคำถามนิดหน่อย พร้อมตอบไหม', [{ t: 'พร้อม', to: '4' }, { t: 'ม่ายยย', to: '3-not-ready', alt: 1 }]);
+  ask('3-not-ready', 3, 'ไม่พร้อมจริงหรอครับ', [{ t: 'จริง', to: '3-rest' }, { t: 'หยอกเล่น 🤭', to: '4', alt: 1 }]);
+  S['3-rest'] = { dot: 3, parent: '3-not-ready', popup: 'งั้นให้พักแปบนึง พร้อมละบอกนะ ☺️',
+                  answers: [{ t: 'พร้อม', to: '4' }, { t: 'พร้อมก็ได้', to: '4' }] };
+ 
+  // 4 (+4.1-4.4)
+  ask('4', 4, 'ชอบทะเลไหมครับ', [{ t: 'ชอบ', to: '4-like' }, { t: 'ไม่ชอบ', to: '4-no', alt: 1 }]);
+  pop('4-like', '4', 4, 'เดี๋ยวแกะกุ้งให้กินครับ😳', '5');
+  pop('4-no', '4', 4, 'ไม่เป็นไรนะ ผมชอบคุณ 😳', '5-mountain');
+ 
+  // 5
+  ask('5', 5, 'ชอบภูเขาไหมครับ', [{ t: 'ชอบ', to: '5-like' }, { t: 'ไม่ชอบ', to: '5-no', alt: 1 }]);
+  pop('5-like', '5', 5, 'ไว้ไปดูทะเลหมอกด้วยกันนะครับ 😳', '6');
+  pop('5-no', '5', 5, 'ไม่ชอบเขาก็ดีแล้ว ชอบผมดีกว่า 🤭', '6');
+  ask('5-mountain', 5, 'งั้นชอบภูเขาหรอ', [{ t: 'ใช่', to: '5-mountain-yes' }, { t: 'ไม่', to: '5-mountain-no', alt: 1 }]);
+  pop('5-mountain-yes', '5-mountain', 5, 'ชอบแต่เขา แล้วผมหล่ะ 😅', '6');
+  pop('5-mountain-no', '5-mountain', 5, 'ไม่ชอบเขาก็ดีแล้ว ชอบผมดีกว่า 🤭', '6');
+ 
+  // 6 flowers
+  ask('6', 6, 'ชอบดอกไม้ไหมครับ', [{ t: 'ชอบ', to: '6-like' }, { t: 'ไม่ชอบ', to: '6-no', alt: 1 }]);
+  pop('6-like', '6', 6, 'ครับ ผมก็ชอบ😳', '7');
+  pop('6-no', '6', 6, 'ไม่เป็นไรนะ ผมชอบคุณ 😳', '7');
+ 
+  // 7 seasons
+  ask('7', 7, 'ชอบฤดูไหนครับ', [{ t: 'ฤดูร้อน', to: '7-hot' }, { t: 'ฤดูฝน', to: '7-rain' }, { t: 'ฤดูหนาว', to: '7-cold' }]);
+  pop('7-hot', '7', 7, 'ฤดูร้อนหรือจะสู้ฤดูรัก 😳', '8');
+  pop('7-rain', '7', 7, 'ช่วงนี้อย่าตากฝนนะครับ เดี๋ยวไม่สบาย ☺️', '8');
+  pop('7-cold', '7', 7, 'โอ้ยยหนาวจัง มากอดมา 😳', '8');
+ 
+  // 8 likes
+  ask('8', 8, 'ชอบอะไรหรอครับ', [{ t: 'ชอบแมว', to: '8-cat' }, { t: 'ชอบหมา', to: '8-dog' }, { t: 'ชอบผม', to: '8-me' }]);
+  pop('8-cat', '8', 8, 'แหม ผมรู้อยู่แล้ว theme web เลยเป็นแมวไง 🤭', '9');
+  pop('8-dog', '8', 8, 'หมาก็น่ารักนะครับ โดยเฉพาะหมาเด็ก 😳', '9');
+  pop('8-me', '8', 8, 'อ้ยยยย ผมก็ชอบคุณครับ😳', '9');
+ 
+  // 9 drinks
+  ask('9', 9, 'ชอบดื่มอะไรหรอครับ?', [{ t: 'กาแฟ', to: '9-coffee' }, { t: 'ชา', to: '9-tea' }, { t: 'โกโก้', to: '9-cocoa' }]);
+  pop('9-coffee', '9', 9, 'นี่เราใจสั่นเพราะกาแฟหรือแกฟะ 😳', '10');
+  pop('9-tea', '9', 9, 'จะชาไทยชาเขียว เดี๋ยวชงให้กินครับ 😳', '10');
+  pop('9-cocoa', '9', 9, 'ที่ทำเป็นเข้ม เพราะเก็บทรงอยู่ครับ 🤭', '10');
+ 
+  // 10 someone?
+  ask('10', 10, 'ถามมาขนาดนี้แล้วจะลืมที่สำคัญที่สุดได้ไง มีใครหรือยังครับ?', [{ t: 'มี', to: '10-yes' }, { t: 'ไม่มี', to: '10-no' }]);
+  pop('10-yes', '10', 10, 'อ้าว จบกัน วาสนาผู้ใดหนอ สงสัยวาสนาผมละหล่ะ 🤭', '11');
+  pop('10-no', '10', 10, 'นี่ไง สงสัยเป็นวาสนาผมจริงด้วย 🤭', '11');
+ 
+  // 11 heart?
+  ask('11', 11, 'แล้วมีใจหรือยังครับ?', [{ t: 'มี', to: '11-yes' }, { t: 'มีบ้าง', to: '11-some' }, { t: 'ไม่มี', to: '11-no' }]);
+  pop('11-yes', '11', 11, 'บ้าเอ้ย ผมก็มี😳', '12');
+  pop('11-some', '11', 11, 'อย่างน้อยก็ยังมีครับ เขิง😳', '12');
+  pop('11-no', '11', 11, 'ไม่เป็นไรครับ ผมรอเก่ง ☺️', '12');
+ 
+  // 12 final confession (scratch card)
+  S['12'] = { dot: 12, title: 'ขอพื้นที่พูดอะไรหน่อยครับ', scratch: true, mood: 'idle' };
+ 
+  /* ================= helpers ================= */
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+ 
   function buildDots() {
     dotsBox.textContent = '';
     for (var i = 1; i <= TOTAL; i++) dotsBox.appendChild(document.createElement('span'));
@@ -311,14 +472,7 @@
     dotsBox.setAttribute('aria-label', 'หน้า ' + n + ' จาก ' + TOTAL);
     dotsBox.className = 'dots';
   }
-
-  function el(tag, cls, text) {
-    var e = document.createElement(tag);
-    if (cls) e.className = cls;
-    if (text) e.textContent = text;
-    return e;
-  }
-
+ 
   function burst() {
     if (reduceMotion) return;
     var ns = 'http://www.w3.org/2000/svg';
@@ -337,7 +491,7 @@
     }
     setTimeout(function () { confetti.textContent = ''; }, 6000);
   }
-
+ 
   function getInsets() {
     var d = document.createElement('div');
     d.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';
@@ -347,10 +501,10 @@
     document.body.removeChild(d);
     return r;
   }
-
-  // ปุ่ม "ไม่" หน้า 7: หนีทุกครั้งที่แตะ/เอาเมาส์เข้าใกล้ กดไม่โดน
+ 
+  // ปุ่ม "ไม่ชอบ" หน้าสุดท้าย: หนีทุกครั้งที่เมาส์เข้าใกล้/แตะ กดไม่โดน ไม่มี navigation
   function makeDodger(btn, avoid) {
-    var texts = ['ไม่', 'ไม่จริงอ่ะ', 'จับไม่ได้หรอก', 'แมวเร็วกว่านะ', 'ลองอีกทีสิ', 'ยอมเถอะ'];
+    var texts = ['ไม่', 'ไม่จริงอ่ะ', 'ผมไม่เชื่อ', 'จะทำอะไรอ่ะ', 'จะจับเม้าส์ผมหรอ', 'จับไม่ได้หรอก', 'เว็บนี้เป็นแมวนะ', 'แมวเร็วกว่านะ', 'ไม่เชื่อหรอ', 'บอกแล้วว่าเร็วกว่าจริงๆ', 'ลองอีกทีสิ', 'ยังไม่ยอมแพ้อีกหรอ', 'ยอมเถอะ', 'ยอมเถอะนะครับ', 'น่านะ', 'นะครับๆๆๆ'];
     var n = 0, scale = 1, fled = false, last = 0;
     function flee(e) {
       var now = Date.now();
@@ -372,11 +526,11 @@
       }
       n++;
       scale = Math.max(0.55, scale * 0.92);
-      btn.textContent = texts[Math.min(n, texts.length - 1)];
+      btn.textContent = texts[Math.min(n - 1, texts.length - 1)];
       setMood('tease');
       clearTimeout(moodTimer);
       moodTimer = setTimeout(function () { setMood('idle'); }, 1200);
-
+ 
       var w = btn.offsetWidth * scale, h = btn.offsetHeight * scale;
       var vw = window.innerWidth, vh = window.innerHeight;
       var ins = getInsets();
@@ -402,73 +556,258 @@
     btn.addEventListener('touchstart', flee, { passive: false });
     btn.addEventListener('click', flee);
   }
-
-  var finalMsg = 'ใช่ ชอบเหมือนกัน 🖤';
-
-  function render(key) {
-    view.textContent = '';
-    clearTimeout(moodTimer);
-    var actions;
-
-    if (key === 'done') {
-      dotsBox.className = 'dots off';
-      setMood('happy');
-      var h = el('h1', '', 'เย้!');
-      h.tabIndex = -1;
-      view.appendChild(h);
-      view.appendChild(el('p', 'msg', finalMsg));
-      burst();
-      h.focus({ preventScroll: true });
-      return;
-    }
-
-    var n = key;
-    var p = pages[n];
-    updateDots(n);
-    setMood(p.mood || 'idle');
-
-    var title = el('h1');
-    title.tabIndex = -1;
-    if (Array.isArray(p.title)) {
-      p.title.forEach(function (t, i) {
-        title.appendChild(el('span', 'k k' + (i + 1), t));
-        if (i < p.title.length - 1) title.appendChild(document.createTextNode(' '));
-      });
-    } else {
-      title.textContent = p.title;
-    }
-    view.appendChild(title);
-    if (p.ask) view.appendChild(el('p', 'ask', p.ask));
-
-    actions = el('div', 'actions');
-    if (p.last) {
-      var yes = el('a', 'btn btn-main', 'ใช่');
-      yes.href = '#done';
-      var no = el('button', 'btn btn-alt', 'ไม่');
-      no.type = 'button';
-      actions.appendChild(yes);
-      actions.appendChild(no);
-      view.appendChild(actions);
-      makeDodger(no, yes);
-    } else {
-      p.answers.forEach(function (a, i) {
-        var link = el('a', 'btn ' + (a.alt ? 'btn-alt' : 'btn-main'), a.t);
-        link.href = '#' + (n + 1);
-        actions.appendChild(link);
-      });
-      view.appendChild(actions);
-    }
-    title.focus({ preventScroll: true });
+ 
+  /* ================= scratch card (canvas, no library) ================= */
+  function paw(ctx, x, y, rot) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.beginPath(); ctx.ellipse(0, 8, 13, 10, 0, 0, Math.PI * 2); ctx.fill();
+    [[-14, -8], [-5, -16], [5, -16], [14, -8]].forEach(function (t) {
+      ctx.beginPath(); ctx.ellipse(t[0], t[1], 4.6, 6, 0, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.restore();
   }
-
+  function paintFoil(ctx, W, H) {
+    var g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#DCD3B4'); g.addColorStop(0.45, '#B4AB8B'); g.addColorStop(1, '#D3CAAA');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.save(); ctx.rotate(-0.35); ctx.fillStyle = 'rgba(255,255,255,.16)';
+    for (var i = -2; i < 9; i++) ctx.fillRect(i * 70, -40, 22, H * 2.4);
+    ctx.restore();
+    for (var s = 0; s < 420; s++) {
+      ctx.fillStyle = s % 2 ? 'rgba(255,255,255,.18)' : 'rgba(40,30,10,.10)';
+      ctx.fillRect(Math.random() * W, Math.random() * H, 1.6, 1.6);
+    }
+    ctx.fillStyle = 'rgba(38,32,20,.22)';
+    [[.14, .32, -.3], [.34, .68, .2], [.55, .30, -.1], [.75, .68, .25], [.90, .32, -.2]].forEach(function (p) {
+      paw(ctx, p[0] * W, p[1] * H, p[2]);
+    });
+    ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 2; ctx.strokeRect(1, 1, W - 2, H - 2);
+  }
+ 
+  function makeScratch(wrap, canvas, onReveal) {
+    var ctx = canvas.getContext && canvas.getContext('2d');
+    if (!ctx) { canvas.classList.add('gone'); onReveal(); return; }   // no canvas support: just show it
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var rect = wrap.getBoundingClientRect();
+    var W = Math.max(1, Math.round(rect.width)), H = Math.max(1, Math.round(rect.height));
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.scale(dpr, dpr);
+    paintFoil(ctx, W, H);
+ 
+    var drawing = false, last = null, done = false, lastCheck = 0;
+    var BRUSH = 34, THRESHOLD = 0.5;          // reveal at ~50% (within the 45-55% target)
+ 
+    function pos(e) {
+      var r = canvas.getBoundingClientRect();
+      return { x: (e.clientX - r.left) * (W / (r.width || W)), y: (e.clientY - r.top) * (H / (r.height || H)) };
+    }
+    function stroke(a, b) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.strokeStyle = '#000';                 // must be opaque, otherwise destination-out only erases partially
+      ctx.lineWidth = BRUSH; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    }
+    function ratio() {
+      var w = canvas.width, h = canvas.height;
+      var data = ctx.getImageData(0, 0, w, h).data;
+      var step = 4, total = 0, clear = 0;
+      for (var y = 0; y < h; y += step) {
+        for (var x = 0; x < w; x += step) {
+          total++;
+          if (data[(y * w + x) * 4 + 3] < 32) clear++;
+        }
+      }
+      return total ? clear / total : 0;
+    }
+    function reveal() {
+      if (done) return;
+      done = true; drawing = false;
+      canvas.classList.add('gone');
+      onReveal();
+    }
+    function check(force) {
+      if (done) return;
+      var now = Date.now();
+      if (!force && now - lastCheck < 120) return;
+      lastCheck = now;
+      if (ratio() >= THRESHOLD) reveal();
+    }
+    function end() { if (!drawing) return; drawing = false; last = null; check(true); }
+ 
+    canvas.addEventListener('pointerdown', function (e) {
+      if (done) return;
+      drawing = true; last = pos(e); stroke(last, last);
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      e.preventDefault();
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      if (!drawing || done) return;
+      if (e.pointerType === 'mouse' && e.buttons === 0) { end(); return; }
+      var p = pos(e); stroke(last, p); last = p; check(false);
+      e.preventDefault();
+    });
+    canvas.addEventListener('pointerup', end);
+    canvas.addEventListener('pointercancel', end);
+    canvas.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
+    canvas.addEventListener('keydown', function (e) {           // keyboard fallback
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); reveal(); }
+    });
+  }
+ 
+  /* ================= render / route ================= */
+  function closeModal() {
+    var m = document.getElementById('modal');
+    if (m && m.parentNode) m.parentNode.removeChild(m);
+  }
+ 
+  function showModal(st) {
+    var back = el('div', 'modal-backdrop');
+    back.id = 'modal';
+    var box = el('div', 'modal');
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 40 40');
+    svg.setAttribute('aria-hidden', 'true');
+    var use = document.createElementNS(ns, 'use');
+    use.setAttribute('href', '#catface');
+    svg.appendChild(use);
+    var p = el('p', '', st.popup);
+    var row = el('div', 'modal-actions');
+    var first = null;
+    st.answers.forEach(function (a) {
+      var l = el('a', 'btn btn-main', a.t);
+      l.href = '#' + a.to;
+      row.appendChild(l);
+      if (!first) first = l;
+    });
+    var bk = el('button', 'btn btn-alt', 'ย้อนกลับ');
+    bk.type = 'button';
+    bk.addEventListener('click', goBack);
+    row.appendChild(bk);
+    box.appendChild(svg); box.appendChild(p); box.appendChild(row);
+    back.appendChild(box);
+    document.body.appendChild(back);
+    setMood(/😳/.test(st.popup) ? 'happy' : 'idle');
+    first.focus({ preventScroll: true });
+  }
+ 
+  function answersRow(answers) {
+    var row = el('div', 'actions');
+    answers.forEach(function (a) {
+      var link = el('a', 'btn ' + (a.alt ? 'btn-alt' : 'btn-main'), a.t);
+      link.href = '#' + a.to;
+      row.appendChild(link);
+    });
+    return row;
+  }
+ 
+  function scratchBlock() {
+    var wrap = el('div', 'scratch');
+    var msg = el('div', 'scratch-msg', 'ผมชอบคุณแล้วคุณหล่ะ ชอบผมบ้างไหม? 😳');
+    var canvas = document.createElement('canvas');
+    canvas.tabIndex = 0;
+    canvas.setAttribute('aria-label', 'ขูดเพื่อเปิดข้อความ');
+    wrap.appendChild(msg); wrap.appendChild(canvas);
+ 
+    var actions = el('div', 'actions');
+    actions.hidden = true;
+    var yes = el('a', 'btn btn-main', 'ชอบ');
+    yes.href = '#done';
+    var no = el('button', 'btn btn-alt', 'ไม่ชอบ');
+    no.type = 'button';
+    actions.appendChild(yes); actions.appendChild(no);
+    makeDodger(no, yes);
+ 
+    return { wrap: wrap, canvas: canvas, actions: actions };
+  }
+ 
+  function renderPage(st) {
+    view.textContent = '';
+    updateDots(st.dot);
+    setMood(st.mood || 'idle');
+ 
+    var h = el('h1');
+    h.tabIndex = -1;
+    if (Array.isArray(st.title)) {
+      st.title.forEach(function (t, i) {
+        h.appendChild(el('span', 'k k' + (i + 1), t));
+        if (i < st.title.length - 1) h.appendChild(document.createTextNode(' '));
+      });
+    } else {
+      var txt = st.title || st.msg;
+      h.textContent = txt;
+      if (txt.length > 40) h.className = 'xl';
+      else if (txt.length > 20) h.className = 'long';
+    }
+    view.appendChild(h);
+ 
+    if (st.scratch) {
+      var sc = scratchBlock();
+      view.appendChild(sc.wrap);
+      view.appendChild(sc.actions);
+      makeScratch(sc.wrap, sc.canvas, function () { sc.actions.hidden = false; });
+    } else {
+      view.appendChild(answersRow(st.answers));
+    }
+    h.focus({ preventScroll: true });
+  }
+ 
+  function renderDone() {
+    view.textContent = '';
+    dotsBox.className = 'dots off';
+    setMood('happy');
+    var h = el('h1', '', 'เย้! ผมก็ชอบคุณเหมือนกัน ชอบมากด้วย 😳🖤');
+    h.tabIndex = -1;
+    view.appendChild(h);
+    view.appendChild(el('p', 'sub', 'ขอบคุณที่ตอบทุกคำถามนะครับ 🤭'));
+    burst();
+    h.focus({ preventScroll: true });
+  }
+ 
+  function render(key) {
+    clearTimeout(moodTimer);
+    closeModal();
+    if (key === 'done') { renderDone(); return; }
+    var st = S[key] || S['1'];
+    var base = st.parent ? S[st.parent] : st;
+    renderPage(base);
+    if (st.popup) showModal(st);
+  }
+ 
+  // ประวัติการเดินทางในเว็บ (ใช้กับปุ่มย้อนกลับ) — ปุ่ม back ของเบราว์เซอร์ก็ใช้ได้เหมือนกัน
+  var trail = [];
+  var currentKey = '1';
+  var backBtn = document.getElementById('back');
+ 
+  function prevOf(key) {                         // เผื่อเปิดลิงก์ตรงหน้ากลางทาง
+    if (key === 'done') return '12';
+    var st = S[key];
+    if (st && st.parent) return st.parent;
+    for (var k in S) {
+      var a = S[k].answers;
+      if (a && a.some(function (x) { return x.to === key; })) return S[k].parent || k;
+    }
+    return null;
+  }
+  function goBack() {
+    if (trail.length > 1) { history.back(); return; }
+    var p = prevOf(currentKey);
+    if (p) location.hash = '#' + p;
+  }
+ 
   function route() {
     var h = (location.hash || '').replace('#', '');
-    if (h === 'done') { render('done'); return; }
-    var n = parseInt(h, 10);
-    if (!(n >= 1 && n <= TOTAL)) n = 1;
-    render(n);
+    var key = (h === 'done' || S[h]) ? h : '1';
+    var n = trail.length;
+    if (n >= 2 && trail[n - 2] === key) trail.pop();
+    else if (trail[n - 1] !== key) trail.push(key);
+    currentKey = key;
+    render(key);
+    backBtn.hidden = (key === '1');
   }
-
+ 
   // แมวมองตามเมาส์
   var pupils = cat.querySelectorAll('.pupil');
   document.addEventListener('mousemove', function (e) {
@@ -483,7 +822,12 @@
       pupils[i].style.transform = 'translate(' + (dx / d * k) + 'px,' + (dy / d * k * 0.8) + 'px)';
     }
   });
-
+ 
+  backBtn.addEventListener('click', goBack);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.getElementById('modal')) goBack();
+  });
+ 
   buildDots();
   window.addEventListener('hashchange', route);
   route();
